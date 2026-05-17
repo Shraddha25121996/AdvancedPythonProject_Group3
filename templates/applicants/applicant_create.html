@@ -1,0 +1,98 @@
+{% extends "layouts/adminlte_base.html" %}
+
+{% block title %}Add Applicant{% endblock %}
+
+{% block page_title %}Add Applicant{% endblock %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">New Applicant</h3>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="card-body">
+
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">First Name</label>
+                    {{ form.first_name }}
+                    <div class="text-danger small">
+                        {{ form.first_name.errors }}
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Last Name</label>
+                    {{ form.last_name }}
+                    <div class="text-danger small">
+                        {{ form.last_name.errors }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                {{ form.email }}
+                <div class="text-danger small">
+                    {{ form.email.errors }}
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Phone</label>
+                {{ form.phone }}
+                <div class="text-danger small">
+                    {{ form.phone.errors }}
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Position Applied</label>
+                {{ form.position_applied }}
+                <div class="text-danger small">
+                    {{ form.position_applied.errors }}
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Status</label>
+                {{ form.status }}
+                <div class="text-danger small">
+                    {{ form.status.errors }}
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Notes</label>
+                {{ form.notes }}
+                <div class="text-danger small">
+                    {{ form.notes.errors }}
+                </div>
+            </div>
+
+        </div>
+
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-save"></i>
+                Save Applicant
+            </button>
+
+            <a href="{% url 'applicants:list' %}" class="btn btn-secondary">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

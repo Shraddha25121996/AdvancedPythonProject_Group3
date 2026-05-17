@@ -1,0 +1,94 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Login | My Django App</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="{% static 'vendor/bootstrap-icons/font/bootstrap-icons.min.css' %}">
+
+    <!-- AdminLTE 4 CSS -->
+    <link rel="stylesheet" href="{% static 'vendor/adminlte4/css/adminlte.min.css' %}">
+</head>
+
+<body class="login-page bg-body-secondary">
+
+<div class="login-box">
+
+    <div class="login-logo">
+        <a href="#">
+            <b>My Django</b> App
+        </a>
+    </div>
+
+    <div class="card">
+        <div class="card-body login-card-body">
+
+            <p class="login-box-msg">Sign in to start your session</p>
+
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    Your username and password did not match. Please try again.
+                </div>
+            {% endif %}
+
+            {% if next %}
+                <div class="alert alert-info">
+                    Please log in to continue.
+                </div>
+            {% endif %}
+
+            <form method="post" action="{% url 'accounts:login' %}">
+                {% csrf_token %}
+
+                <div class="input-group mb-3">
+                    {{ form.username }}
+                    <div class="input-group-text">
+                        <span class="bi bi-person"></span>
+                    </div>
+                </div>
+
+                <div class="input-group mb-3">
+                    {{ form.password }}
+                    <div class="input-group-text">
+                        <span class="bi bi-lock-fill"></span>
+                    </div>
+                </div>
+
+                <input type="hidden" name="next" value="{{ next }}">
+
+                <div class="row">
+                    <div class="col-8">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="remember">
+                            <label class="form-check-label" for="remember">
+                                Remember me
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-primary btn-block w-100">
+                            Sign In
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- Bootstrap 5 JS -->
+<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+<!-- AdminLTE 4 JS -->
+<script src="{% static 'vendor/adminlte4/js/adminlte.min.js' %}"></script>
+
+</body>
+</html>

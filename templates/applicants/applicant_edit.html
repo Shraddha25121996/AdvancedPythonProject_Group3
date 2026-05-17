@@ -1,0 +1,181 @@
+{% extends "layouts/adminlte_base.html" %}
+
+{% block title %}Edit Applicant{% endblock %}
+
+{% block page_title %}Edit Applicant{% endblock %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">
+            Editing {{ applicant.first_name }} {{ applicant.last_name }}
+        </h3>
+    </div>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="card-body">
+
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">First Name</label>
+                    {{ form.first_name }}
+                    <div class="text-danger small">
+                        {{ form.first_name.errors }}
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Last Name</label>
+                    {{ form.last_name }}
+                    <div class="text-danger small">
+                        {{ form.last_name.errors }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                {{ form.email }}
+                <div class="text-danger small">
+                    {{ form.email.errors }}
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Phone</label>
+                {{ form.phone }}
+                <div class="text-danger small">
+                    {{ form.phone.errors }}
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Position Applied</label>
+                {{ form.position_applied }}
+                <div class="text-danger small">
+                    {{ form.position_applied.errors }}
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Status</label>
+                {{ form.status }}
+                <div class="text-danger small">
+                    {{ form.status.errors }}
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Notes</label>
+                {{ form.notes }}
+                <div class="text-danger small">
+                    {{ form.notes.errors }}
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Upload Resume / CV</label>
+                {{ form.resume_file }}
+                <div class="form-text">
+                    Accepted formats: PDF or DOCX
+                </div>
+                <p>
+                    <strong>Uploaded Resume:</strong>
+                    {{ applicant.resume_file }}
+                </p>
+                <div class="text-danger small">
+                    {{ form.resume_file.errors }}
+                </div>
+            </div>
+
+
+        
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-save"></i>
+                Update Applicant
+            </button>
+
+            <a href="{% url 'applicants:list' %}" class="btn btn-secondary">
+                Cancel
+            </a>
+        
+    </form>
+
+            {% if applicant.resume_file %}
+    <div class="mb-3 mt-3">
+       
+
+        <a href="{% url 'applicants:classify_resume' applicant.id %}" class="btn btn-success">
+            Run Classifier
+        </a>
+    </div>
+{% endif %}
+
+{% if applicant.resume_prediction %}
+    <div class="alert alert-info">
+       {% if top_categories %}
+<div class="alert alert-secondary mt-3">
+    <h5>Resume Category</h5>
+    <ul class="mb-0" style="disc">
+        {% for item in top_categories %}
+            <li>
+                {{ item.category }} - {{ item.confidence|floatformat:4 }}
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+
+
+       <!-- <p><strong>Prediction:</strong> {{ applicant.resume_prediction }}</p>
+        <p><strong>Confidence:</strong> {{ applicant.resume_confidence }}</p>
+        <p><strong>Classified At:</strong> {{ applicant.resume_classified_at }}</p>
+-->
+        {% if applicant.fit_label %}
+        <div class="alert alert-primary mt-3">
+            <p><strong>Final Fit:</strong> {{ applicant.fit_label }}</p>
+            <p><strong>Reason:</strong> {{ applicant.fit_explanation }}</p>
+        </div>
+        {% endif %}
+    </div>
+{% endif %}
+
+{% if applicant.resume_explanation %}
+    <div class="alert alert-secondary">
+        <strong>Explanation:</strong>
+        <p>{{ applicant.resume_explanation }}</p>
+    </div>
+{% endif %}
+
+{% if matched_skills %}
+<div class="alert alert-success mt-3">
+    <h5>Matched Skills</h5>
+    {% for skill in matched_skills %}
+        <span class="badge text-bg-success me-1">{{ skill }}</span>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% if missing_skills %}
+<div class="alert alert-warning mt-3">
+    <h5>Missing / Not Detected Skills</h5>
+    {% for skill in missing_skills %}
+        <span class="badge text-bg-warning me-1">{{ skill }}</span>
+    {% endfor %}
+</div>
+{% endif %}
+        </div>
+
+</div>
+
+{% endblock %}

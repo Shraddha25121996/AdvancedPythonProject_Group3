@@ -1,0 +1,38 @@
+{% extends "layouts/adminlte_base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block page_title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="row">
+
+    <div class="col-lg-3 col-6">
+        <div class="small-box text-bg-primary">
+            <div class="inner">
+                <h3>{{ total_applicants }}</h3>
+                <p>Total Applicants</p>
+            </div>
+
+            <i class="small-box-icon bi bi-person-lines-fill"></i>
+
+            <a href="{% url 'applicants:list' %}" class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
+                View Applicants <i class="bi bi-arrow-right-circle"></i>
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<div class="card" style="display:none;">
+    <div class="card-header">
+        <h3 class="card-title">Dashboard</h3>
+    </div>
+
+    <div class="card-body">
+        Welcome, {{ request.user.username }}. You are logged in.
+    </div>
+</div>
+
+{% endblock %}
